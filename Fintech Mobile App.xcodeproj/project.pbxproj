@@ -6,8 +6,27 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		CEC71B702DBAC38900FEDBD2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CEC71B6F2DBAC38900FEDBD2 /* GoogleService-Info.plist */; };
+		CED655602DB10EDF0057DC6D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = CED6555F2DB10EDF0057DC6D /* Alamofire */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CED656192DB124ED0057DC6D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		CE942FFE2DA2C685008425E2 /* Fintech Mobile App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Fintech Mobile App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEC71B6F2DBAC38900FEDBD2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -23,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CED655602DB10EDF0057DC6D /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -32,6 +52,7 @@
 		CE942FF52DA2C685008425E2 = {
 			isa = PBXGroup;
 			children = (
+				CEC71B6F2DBAC38900FEDBD2 /* GoogleService-Info.plist */,
 				CE9430002DA2C685008425E2 /* Fintech Mobile App */,
 				CE942FFF2DA2C685008425E2 /* Products */,
 			);
@@ -55,6 +76,7 @@
 				CE942FFA2DA2C685008425E2 /* Sources */,
 				CE942FFB2DA2C685008425E2 /* Frameworks */,
 				CE942FFC2DA2C685008425E2 /* Resources */,
+				CED656192DB124ED0057DC6D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -65,6 +87,7 @@
 			);
 			name = "Fintech Mobile App";
 			packageProductDependencies = (
+				CED6555F2DB10EDF0057DC6D /* Alamofire */,
 			);
 			productName = "Fintech Mobile App";
 			productReference = CE942FFE2DA2C685008425E2 /* Fintech Mobile App.app */;
@@ -94,6 +117,9 @@
 			);
 			mainGroup = CE942FF52DA2C685008425E2;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				CED6555E2DB10EDF0057DC6D /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CE942FFF2DA2C685008425E2 /* Products */;
 			projectDirPath = "";
@@ -109,6 +135,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEC71B702DBAC38900FEDBD2 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,6 +282,7 @@
 				DEVELOPMENT_TEAM = L3FSH6376S;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Fintech-Mobile-App-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -284,6 +312,7 @@
 				DEVELOPMENT_TEAM = L3FSH6376S;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Fintech-Mobile-App-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -324,6 +353,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CED6555E2DB10EDF0057DC6D /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CED6555F2DB10EDF0057DC6D /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CED6555E2DB10EDF0057DC6D /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CE942FF62DA2C685008425E2 /* Project object */;
 }
