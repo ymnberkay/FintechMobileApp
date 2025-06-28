@@ -28,7 +28,15 @@ struct CAPhoneNumber: View {
                 Spacer()
                 Button {
                     if viewModel.password != "" && viewModel.phoneNumberText != "" {
-                        viewModel.showCorrectAllert = true
+                        Task {
+                            print("\((viewModel.selectedCountry?.code ?? "") + viewModel.phoneNumberText)")
+                            await                         viewModel.registration(phoneNumber: "\((viewModel.selectedCountry?.code ?? "") + viewModel.phoneNumberText)", password: viewModel.password, createDate: Date())
+                            if viewModel.success {
+                                viewModel.showCorrectAllert = true
+                            }
+                        }
+                        
+                        
                     }
                 } label: {
                     Text("Sign Up")

@@ -6,5 +6,10 @@
 //
 
 struct CAResidenceRequest: Codable {
-    let residence: String 
+    let userID, residence: String
+    
+    enum CodingKeys: String, CodingKey {
+        case userID = "userId"
+        case residence
+    }
 }

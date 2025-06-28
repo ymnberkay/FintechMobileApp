@@ -8,7 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		CEC71B702DBAC38900FEDBD2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CEC71B6F2DBAC38900FEDBD2 /* GoogleService-Info.plist */; };
+		CEC71B772DBACEB700FEDBD2 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = CEC71B762DBACEB600FEDBD2 /* FirebaseAuth */; };
+		CEC71B792DBACEB700FEDBD2 /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = CEC71B782DBACEB700FEDBD2 /* FirebaseAuthCombine-Community */; };
+		CEC71B7B2DBACEB700FEDBD2 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = CEC71B7A2DBACEB700FEDBD2 /* FirebaseCore */; };
 		CED655602DB10EDF0057DC6D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = CED6555F2DB10EDF0057DC6D /* Alamofire */; };
+		CEEBD5C02DD531B9009B384D /* SignalRClient in Frameworks */ = {isa = PBXBuildFile; productRef = CEEBD5BF2DD531B9009B384D /* SignalRClient */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,6 +47,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				CED655602DB10EDF0057DC6D /* Alamofire in Frameworks */,
+				CEC71B792DBACEB700FEDBD2 /* FirebaseAuthCombine-Community in Frameworks */,
+				CEC71B7B2DBACEB700FEDBD2 /* FirebaseCore in Frameworks */,
+				CEC71B772DBACEB700FEDBD2 /* FirebaseAuth in Frameworks */,
+				CEEBD5C02DD531B9009B384D /* SignalRClient in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,6 +96,10 @@
 			name = "Fintech Mobile App";
 			packageProductDependencies = (
 				CED6555F2DB10EDF0057DC6D /* Alamofire */,
+				CEC71B762DBACEB600FEDBD2 /* FirebaseAuth */,
+				CEC71B782DBACEB700FEDBD2 /* FirebaseAuthCombine-Community */,
+				CEC71B7A2DBACEB700FEDBD2 /* FirebaseCore */,
+				CEEBD5BF2DD531B9009B384D /* SignalRClient */,
 			);
 			productName = "Fintech Mobile App";
 			productReference = CE942FFE2DA2C685008425E2 /* Fintech Mobile App.app */;
@@ -119,6 +131,8 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				CED6555E2DB10EDF0057DC6D /* XCRemoteSwiftPackageReference "Alamofire" */,
+				CEC71B752DBACEB600FEDBD2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				CEEBD5BE2DD531B9009B384D /* XCRemoteSwiftPackageReference "SignalR-Client-Swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CE942FFF2DA2C685008425E2 /* Products */;
@@ -355,6 +369,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		CEC71B752DBACEB600FEDBD2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.12.0;
+			};
+		};
 		CED6555E2DB10EDF0057DC6D /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -363,13 +385,41 @@
 				minimumVersion = 5.10.2;
 			};
 		};
+		CEEBD5BE2DD531B9009B384D /* XCRemoteSwiftPackageReference "SignalR-Client-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/moozzyk/SignalR-Client-Swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		CEC71B762DBACEB600FEDBD2 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CEC71B752DBACEB600FEDBD2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		CEC71B782DBACEB700FEDBD2 /* FirebaseAuthCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CEC71B752DBACEB600FEDBD2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseAuthCombine-Community";
+		};
+		CEC71B7A2DBACEB700FEDBD2 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CEC71B752DBACEB600FEDBD2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
 		CED6555F2DB10EDF0057DC6D /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CED6555E2DB10EDF0057DC6D /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		CEEBD5BF2DD531B9009B384D /* SignalRClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CEEBD5BE2DD531B9009B384D /* XCRemoteSwiftPackageReference "SignalR-Client-Swift" */;
+			productName = SignalRClient;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

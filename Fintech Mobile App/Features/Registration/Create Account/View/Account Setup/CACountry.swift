@@ -30,7 +30,7 @@ struct CACountry: View {
             
             Button {
                 Task {
-                    await viewModel.postResidenceData(requestString: viewModel.countryValue?.name ?? "")
+                    await viewModel.postResidenceData(id: viewModel.userInfoID, requestString: viewModel.countryValue?.name ?? "")
                     if viewModel.success {
                         coordinator.push(.caName)
                     }

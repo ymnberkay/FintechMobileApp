@@ -17,6 +17,8 @@ enum NetworkPath: String {
     case PIAdress = "api/PersonalInfo/adress"
     case PIEmail = "api/PersonalInfo/email"
     case PIPasscode = "api/PersonalInfo/passcode"
+    case Register = "api/Auth/register"
+    case Login = "api/Auth/login"
     static let baseUrl: String = "http://localhost:5245/"
 }
 
@@ -47,6 +49,7 @@ class NetworkManager: INetworkManager {
     
     func post<T: Codable, R: Encodable>(path: NetworkPath, model: R, type: T.Type) async -> T? {
         let jsonEncoder = JSONEncoder()
+        jsonEncoder.dateEncodingStrategy = .iso8601
         guard let data = try? jsonEncoder.encode(model) else { return nil }
         guard let dataString = String(data: data, encoding: .utf8) else { return nil }
         

@@ -37,15 +37,14 @@ final class CAViewModel: ObservableObject {
         }
     }
     
-    func postResidenceData(requestString: String) async {
-        let model = CAResidenceRequest(residence: requestString)
+    func postResidenceData(id: String, requestString: String) async {
+        let model = CAResidenceRequest(userID: id, residence: requestString)
         if let response = await NetworkManager.networkManager.post(
             path: .PIResidence,
             model: model,
             type: CAResidenceResponse.self
         ) {
             await MainActor.run {
-                self.userInfoID = response.id
                 self.message = response.message
                 self.success = response.success
                 print(response)
@@ -109,6 +108,20 @@ final class CAViewModel: ObservableObject {
             model: model,
             type: CAStepResponse.self) {
             self.message = response.message
+            self.success = response.success
+        } else {
+            self.message = "A error appeared."
+            self.success = false
+        }
+    }
+    
+    func registration(phoneNumber: String, password: String, createDate: Date) async {
+        let model = CARegistrationRequest(phoneNumber: phoneNumber, password: password, createDate: createDate)
+        if let response = await NetworkManager.networkManager.post(
+            path: .Register,
+            model: model,
+            type: CARegistrationResponse.self) {
+            self.userInfoID = response.userId ?? ""
             self.success = response.success
         } else {
             self.message = "A error appeared."

@@ -10,6 +10,7 @@ import SwiftUI
 struct RootView: View {
     @StateObject private var coordinator = NavigationCoordinator()
     @StateObject var createAccountViewModel: CAViewModel
+    @StateObject var loginViewModel: LoginViewModel
     
     var body: some View {
         NavigationStack(path: $coordinator.path) {
@@ -17,7 +18,7 @@ struct RootView: View {
                 .navigationDestination(for: Screen.self) { screen in
                     switch screen {
                     case .login:
-                        SplashView()
+                        LoginView(caViewModel: createAccountViewModel, viewModel: loginViewModel)
                     case .signUp:
                         CAPhoneNumber(viewModel: createAccountViewModel)
                     case .caConfirmPhone:
@@ -34,6 +35,8 @@ struct RootView: View {
                         CAPasscode(viewModel: createAccountViewModel)
                     case .welcome:
                         Welcome()
+                    case .home:
+                        HomePageView()
                     }
                 }
         }
@@ -42,5 +45,5 @@ struct RootView: View {
 }
 
 #Preview {
-    RootView(createAccountViewModel: CAViewModel())
+    RootView(createAccountViewModel: CAViewModel(), loginViewModel: LoginViewModel())
 }

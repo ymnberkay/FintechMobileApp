@@ -15,4 +15,6 @@ enum Screen: Hashable {
     case caEmail
     case caPasscode
     case welcome
+    case home
+    
 }
