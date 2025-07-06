@@ -1,0 +1,12 @@
+# Xcode build outputs
+Build/
+.build/
+DerivedData/
+*.xcworkspace/xcshareddata/
+
+# SwiftPM
+.build/
+
+# Xcode user data
+xcuserdata/
+*.xcuserstate
