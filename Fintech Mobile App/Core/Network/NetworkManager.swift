@@ -11,19 +11,42 @@ struct NetworkConfig {
     let baseUrl: String
 }
 
-enum NetworkPath: String {
-    case PIResidence = "api/PersonalInfo/residence"
-    case PIName = "api/PersonalInfo/name"
-    case PIAdress = "api/PersonalInfo/adress"
-    case PIEmail = "api/PersonalInfo/email"
-    case PIPasscode = "api/PersonalInfo/passcode"
-    case Register = "api/Auth/register"
-    case Login = "api/Auth/login"
+enum NetworkPath {
+    case PIResidence
+    case PIName
+    case PIAdress
+    case PIEmail
+    case PIPasscode
+    case Register
+    case Login
+    case GetBalance(userId: String)
+    
+    var rawValue: String {
+        switch self {
+        case .PIResidence:
+            return "api/PersonalInfo/residence"
+        case .PIName:
+            return "api/PersonalInfo/name"
+        case .PIAdress:
+            return "api/PersonalInfo/adress"
+        case .PIEmail:
+            return "api/PersonalInfo/email"
+        case .PIPasscode:
+            return "api/PersonalInfo/passcode"
+        case .Register:
+            return "api/Auth/register"
+        case .Login:
+            return "api/Auth/login"
+        case .GetBalance(let userId):
+            return "api/Balance/\(userId)"
+        }
+    }
+    
     static let baseUrl: String = "http://localhost:5245/"
 }
 
 protocol INetworkManager {
-    func get<T: Codable>(path: NetworkPath,method: HTTPMethod, type: T.Type)
+    func get<T: Codable>(path: NetworkPath, type: T.Type) async -> T?
     func post<T: Codable, R: Encodable>(path: NetworkPath, model: R, type: T.Type) async -> T?
     var config: NetworkConfig { get set }
 }
@@ -35,7 +58,7 @@ extension NetworkManager {
 class NetworkManager: INetworkManager {
     var config: NetworkConfig
     let headers: HTTPHeaders = [
-        .contentType("application/json")  // Burada içerik türünü belirtiyoruz
+        .contentType("application/json")
     ]
     
     
@@ -43,9 +66,6 @@ class NetworkManager: INetworkManager {
         self.config = config
     }
     
-    func get<T>(path: NetworkPath, method: Alamofire.HTTPMethod, type: T.Type) where T : Decodable, T : Encodable {
-        
-    }
     
     func post<T: Codable, R: Encodable>(path: NetworkPath, model: R, type: T.Type) async -> T? {
         let jsonEncoder = JSONEncoder()
@@ -53,7 +73,7 @@ class NetworkManager: INetworkManager {
         guard let data = try? jsonEncoder.encode(model) else { return nil }
         guard let dataString = String(data: data, encoding: .utf8) else { return nil }
         
-        var request = AF.request("\(config.baseUrl)\(path.rawValue)",
+        let request = AF.request("\(config.baseUrl)\(path.rawValue)",
                                  method: .post,
                                  parameters: convertToDictionary(text: dataString),
                                  encoding: JSONEncoding.default,
@@ -67,6 +87,24 @@ class NetworkManager: INetworkManager {
             return nil
         }
         return value
+    }
+    
+    func get<T: Codable>(path: NetworkPath, type: T.Type) async -> T? {
+        let request = AF.request("\(config.baseUrl)\(path.rawValue)",
+                                 method: .get,
+                                 headers: headers)
+            .validate()
+            .serializingDecodable(T.self)
+        
+        let response = await request.response
+        
+        guard let value = response.value else {
+            print("ERROR: \(String(describing: response.error))")
+            return nil
+        }
+        
+        return value
+        
     }
     
     

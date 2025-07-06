@@ -10,6 +10,7 @@ final class LoginViewModel: ObservableObject {
     @Published var phoneNumber: String = ""
     @Published var password: String = ""
     @Published var loginIsSuccess: Bool = false
+    @Published var userID: String = ""
     
     
     func postLogin(phoneNumber: String, password: String) async {
@@ -21,6 +22,7 @@ final class LoginViewModel: ObservableObject {
         ) {
             print(response)
             self.loginIsSuccess = response.success
+            self.userID = response.userId ?? ""
         } else {
             self.loginIsSuccess = false
         }

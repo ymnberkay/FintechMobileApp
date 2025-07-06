@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct TextButtonArrow: View {
+    var text: String
     var onClick: () -> Void
     var body: some View {
         HStack {
-            Text("Transaction")
+            Text(text)
                 .font(Typography.titleSmallMedium)
             Spacer()
             Button(action: onClick) {
@@ -25,5 +26,5 @@ struct TextButtonArrow: View {
 }
 
 #Preview {
-    TextButtonArrow(onClick: { })
+    TextButtonArrow(text: "Transaction" ,onClick: { })
 }

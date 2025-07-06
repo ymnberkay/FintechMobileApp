@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct HomePageView: View {
-    @StateObject var viewModel = HomePageViewModel()
+    @StateObject var viewModel: HomePageViewModel
+    @EnvironmentObject var userManager: UserManager
+    @EnvironmentObject var coordinator: NavigationCoordinator
     
     
     var body: some View {
@@ -20,11 +22,12 @@ struct HomePageView: View {
                     .frame(height: geo.size.height / 2.1)
                     .edgesIgnoringSafeArea(.top)
                     
-                VStack {
+                VStack(spacing: 16) {
                     VStack(spacing: 16) {
                         TopBarView()
                         BalanceView(viewModel: viewModel)
-                    }.padding(.bottom,36)
+                    }.padding(.bottom, 4)
+                    
                     HStack (spacing: 36){
                         
                         SRBButtonView(imageName: "arrow.up.circle.fill", text: "Send", buttonColor: ColorPalette.primary) {
@@ -42,11 +45,11 @@ struct HomePageView: View {
                         }
                     }.padding().frame(width: geo.size.width*0.9, height: geo.size.height * 0.1).background(RoundedRectangle(cornerRadius: 15).fill(ColorPalette.bgLight))
                     
-                    TextButtonArrow(onClick: {
+                    TextButtonArrow(text: "Transaction" ,onClick: {
                         
                     })
                     
-                    VStack {
+                    VStack(spacing: 16) {
                         TransactionView(imageName: "creditcard.fill", text: "Spending", price: 123.1, buttonBackColor: ColorPalette.blue500, onClick: { })
                         Divider()
                             .padding(.horizontal)
@@ -60,7 +63,7 @@ struct HomePageView: View {
                         
                         
                     }.padding()
-                    .background(RoundedRectangle(cornerRadius: 15.0).fill(ColorPalette.bgLight).frame(width: geo.size.width * 0.93))
+                        .background(RoundedRectangle(cornerRadius: 15.0).fill(ColorPalette.bgLight).frame(width: geo.size.width * 0.93))
                     Spacer()
                     
                 }
@@ -74,7 +77,7 @@ struct HomePageView: View {
 }
 
 #Preview {
-    HomePageView()
+    HomePageView(viewModel: HomePageViewModel())
 }
 
 private struct TopBarView: View {

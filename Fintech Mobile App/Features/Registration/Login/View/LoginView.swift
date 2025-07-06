@@ -11,6 +11,7 @@ struct LoginView: View {
     @EnvironmentObject var coordinator: NavigationCoordinator
     @StateObject var caViewModel: CAViewModel
     @StateObject var viewModel: LoginViewModel
+    @EnvironmentObject var userManager: UserManager
     var body: some View {
         ZStack {
             VStack(spacing: 16) {
@@ -44,6 +45,10 @@ struct LoginView: View {
                         .background(RoundedRectangle(cornerRadius: 40).frame(width: 350, height: 60).foregroundColor(ColorPalette.primary))
                     
                 }.padding()
+            }
+        }.onDisappear {
+            if viewModel.loginIsSuccess {
+                userManager.currentUserID = viewModel.userID
             }
         }
         

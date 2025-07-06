@@ -8,9 +8,13 @@
 import SwiftUI
 
 struct RootView: View {
-    @StateObject private var coordinator = NavigationCoordinator()
+    @EnvironmentObject private var coordinator: NavigationCoordinator
     @StateObject var createAccountViewModel: CAViewModel
     @StateObject var loginViewModel: LoginViewModel
+    @StateObject var homePageViewModel: HomePageViewModel
+    @StateObject var spendingViewModel: SpendingViewModel
+    @EnvironmentObject var userManager: UserManager
+    
     
     var body: some View {
         NavigationStack(path: $coordinator.path) {
@@ -19,6 +23,7 @@ struct RootView: View {
                     switch screen {
                     case .login:
                         LoginView(caViewModel: createAccountViewModel, viewModel: loginViewModel)
+                            .environmentObject(userManager)
                     case .signUp:
                         CAPhoneNumber(viewModel: createAccountViewModel)
                     case .caConfirmPhone:
@@ -36,7 +41,9 @@ struct RootView: View {
                     case .welcome:
                         Welcome()
                     case .home:
-                        HomePageView()
+                        DashbordView(homePageViewModel: homePageViewModel, spendingViewModel: spendingViewModel)
+                            .environmentObject(userManager)
+                        
                     }
                 }
         }
@@ -45,5 +52,5 @@ struct RootView: View {
 }
 
 #Preview {
-    RootView(createAccountViewModel: CAViewModel(), loginViewModel: LoginViewModel())
+    RootView(createAccountViewModel: CAViewModel(), loginViewModel: LoginViewModel(), homePageViewModel: HomePageViewModel(), spendingViewModel: SpendingViewModel())
 }
