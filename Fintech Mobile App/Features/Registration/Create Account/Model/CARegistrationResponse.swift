@@ -15,6 +15,6 @@ struct CARegistrationResponse: Codable {
     let userId: String?
     let phoneNumber: String?
     let token: String?
-    let createDate: Date?
+    let createDate: String?
     
 }

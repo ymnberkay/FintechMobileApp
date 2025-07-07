@@ -10,6 +10,5 @@ import Foundation
 struct CARegistrationRequest: Codable {
     let phoneNumber: String
     let password: String
-    let createDate: Date
 }
 

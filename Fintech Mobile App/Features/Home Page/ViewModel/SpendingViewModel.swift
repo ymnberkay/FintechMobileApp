@@ -9,7 +9,8 @@ import SwiftUI
 
 final class SpendingViewModel: ObservableObject {
     @Published var selectedMonth = "January"
-    @Published var balance: Double = 0.0
+    @Published var avainleBalance: Double = 0.0
+    @Published var totalSpend: Double = 0.0
     
     static let monthsSpending = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"]
     

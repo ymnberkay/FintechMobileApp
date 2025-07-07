@@ -30,7 +30,7 @@ struct CAPhoneNumber: View {
                     if viewModel.password != "" && viewModel.phoneNumberText != "" {
                         Task {
                             print("\((viewModel.selectedCountry?.code ?? "") + viewModel.phoneNumberText)")
-                            await                         viewModel.registration(phoneNumber: "\((viewModel.selectedCountry?.code ?? "") + viewModel.phoneNumberText)", password: viewModel.password, createDate: Date())
+                            await                         viewModel.registration(phoneNumber: "\((viewModel.selectedCountry?.code ?? "") + viewModel.phoneNumberText)", password: viewModel.password)
                             if viewModel.success {
                                 viewModel.showCorrectAllert = true
                             }
@@ -51,7 +51,10 @@ struct CAPhoneNumber: View {
                     .ignoresSafeArea()
                 AlertCorrect(phoneNumber: viewModel.phoneNumberText, countryCode: viewModel.selectedCountry?.code ?? "", onConfirm: {coordinator.push(.caConfirmPhone)}, onCancel: {viewModel.showCorrectAllert = false})
             }
-        }.animation(.easeInOut, value: viewModel.showCorrectAllert)
+        }.onAppear {
+            viewModel.success = false
+        }
+        .animation(.easeInOut, value: viewModel.showCorrectAllert)
 
     }
 }

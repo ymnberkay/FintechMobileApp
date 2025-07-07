@@ -42,6 +42,8 @@ struct CAEmail: View {
                     
             }.disabled(viewModel.caEmail.isEmpty)
             .padding()
+        }.onAppear {
+            viewModel.success = false
         }
     }
 }

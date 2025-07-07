@@ -20,6 +20,7 @@ enum NetworkPath {
     case Register
     case Login
     case GetBalance(userId: String)
+    case CreateBalance
     
     var rawValue: String {
         switch self {
@@ -39,6 +40,8 @@ enum NetworkPath {
             return "api/Auth/login"
         case .GetBalance(let userId):
             return "api/Balance/\(userId)"
+        case .CreateBalance:
+            return "api/Balance"
         }
     }
     

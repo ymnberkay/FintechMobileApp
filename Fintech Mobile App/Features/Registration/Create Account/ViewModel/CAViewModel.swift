@@ -27,6 +27,7 @@ final class CAViewModel: ObservableObject {
     @Published var caPostCode: String = ""
     @Published var caEmail: String = ""
     @Published var passcode: String = ""
+    @Published var isComplete: Bool = false
     
     
     func otpCompare(enterValue: [String]) -> Bool {
@@ -109,30 +110,45 @@ final class CAViewModel: ObservableObject {
             type: CAStepResponse.self) {
             self.message = response.message
             self.success = response.success
+            self.isComplete = true
         } else {
             self.message = "A error appeared."
             self.success = false
         }
     }
     
-    func registration(phoneNumber: String, password: String, createDate: Date) async {
-        let model = CARegistrationRequest(phoneNumber: phoneNumber, password: password, createDate: createDate)
+    func postCreateFirstBalance(id: String, balance: Double, currency: String) async {
+        let model = CABalanceRequest(userId: id, balance: balance, currency: currency)
         if let response = await NetworkManager.networkManager.post(
-            path: .Register,
+            path: .CreateBalance,
             model: model,
-            type: CARegistrationResponse.self) {
-            self.userInfoID = response.userId ?? ""
+            type: CAStepResponse.self) {
+            self.message = response.message
             self.success = response.success
         } else {
             self.message = "A error appeared."
             self.success = false
         }
+        
     }
     
-    private func formattedDate(date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .none
-        return dateFormatter.string(from: date)
+    func registration(phoneNumber: String, password: String) async {
+        let model = CARegistrationRequest(phoneNumber: phoneNumber, password: password)
+        if let response = await NetworkManager.networkManager.post(
+            path: .Register,
+            model: model,
+            type: CARegistrationResponse.self) {
+            await MainActor.run {
+                print("****response*** \(response)")
+                self.userInfoID = response.userId ?? ""
+                print(self.userInfoID)
+                self.success = true
+            }
+        } else {
+            await MainActor.run {
+                self.message = "A error appeared."
+                self.success = false
+            }
+        }
     }
 }

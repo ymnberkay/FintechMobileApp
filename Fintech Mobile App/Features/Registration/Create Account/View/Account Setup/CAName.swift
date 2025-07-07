@@ -59,6 +59,8 @@ struct CAName: View {
                     viewModel.showBirthDateAllert = false
                 }
             }
+        }.onAppear {
+            viewModel.success = false
         }
 
     }

@@ -45,6 +45,7 @@ struct CAPasscode: View {
             Button {
                 Task {
                     await viewModel.postPasscodeData(id: viewModel.userInfoID, passcode: viewModel.passcode, isCompleted: true)
+                    await viewModel.postCreateFirstBalance(id: viewModel.userInfoID, balance: 0.0, currency: "USD")
                     
                     if viewModel.success {
                         coordinator.push(.welcome)
@@ -58,6 +59,8 @@ struct CAPasscode: View {
                     
             }.disabled(viewModel.caPostCode.isEmpty)
                 .padding()
+        }.onAppear {
+            viewModel.success = false
         }
     }
 }

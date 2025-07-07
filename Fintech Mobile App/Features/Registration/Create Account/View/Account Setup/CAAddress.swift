@@ -50,6 +50,8 @@ struct CAAddress: View {
                     
             }.disabled(viewModel.caAddress.isEmpty && viewModel.caCity.isEmpty && viewModel.caPostCode.isEmpty)
             .padding()
+        }.onAppear {
+            viewModel.success = false
         }
     }
 }

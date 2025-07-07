@@ -43,6 +43,8 @@ struct CAConfirmation: View {
                     
             }
             .padding()
+        }.onAppear {
+            viewModel.success = false
         }
     }
 }

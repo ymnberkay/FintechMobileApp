@@ -17,59 +17,20 @@ struct SpendingView: View {
             ColorPalette.gray100
                 .edgesIgnoringSafeArea(.all)
             VStack(spacing: 16) {
-                HStack {
-                    
-                    Picker("", selection: $viewModel.selectedMonth) {
-                        ForEach(SpendingViewModel.monthsSpending, id: \.self) {
-                            Text($0)
-                            
-                        }
-                    }.pickerStyle(.menu)
-                    
-                    
-                    Spacer()
-                }.padding()
+                MonthPickerView(viewModel: viewModel)
                 
                 HStack(spacing: 15) {
                     
-                    VStack(alignment: .leading, spacing: 8) {
-                        HStack {
-                            Image(systemName: "creditcard")
-                                .foregroundColor(ColorPalette.bgLight)
-                            Text("Total Spend")
-                                .foregroundColor(ColorPalette.bgLight)
-                                .font(Typography.bodyMediumRegular)
-                        }
-                        
-                        Text("$\(viewModel.balance)")
-                            .foregroundColor(ColorPalette.bgLight)
-                            .font(Typography.bodyLargeSemibold)
-                    }
-                    .frame(width: 180, height: 100)
-                    .background(Color.blue)
-                    .cornerRadius(16)
+                    BalanceCard(balance: viewModel.totalSpend, image: "creditcard", text: "Total Spend", cardColor: ColorPalette.bgAccent, textColor: ColorPalette.bgLight)
                     
-                    VStack(alignment: .leading, spacing: 8) {
-                        HStack {
-                            Image(systemName: "creditcard")
-                                .foregroundColor(ColorPalette.black)
-                            Text("Available Balance")
-                                .foregroundColor(ColorPalette.black)
-                                .font(Typography.bodyMediumRegular)
-                        }
-                        
-                        Text("$\(viewModel.balance)")
-                            .foregroundColor(.black)
-                            .font(Typography.bodyLargeSemibold)
-                    }
-                    .frame(width: 180, height: 100)
-                    .background(Color.yellow)
-                    .cornerRadius(16)
+                    BalanceCard(balance: viewModel.avainleBalance, image: "creditcard", text: "Available Balance", cardColor: ColorPalette.bgSecondary, textColor: ColorPalette.black)
+                    
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 20)
                 
                 ChartView(data: viewModel.data)
+                
                 
                 
                 Spacer()
@@ -124,5 +85,50 @@ private struct ChartView: View {
             }
         }
         .chartYScale(domain: 0...200)
+    }
+}
+
+struct BalanceCard: View {
+    let balance: Double
+    let image: String
+    let text: String
+    let cardColor: Color
+    let textColor: Color
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Image(systemName: image)
+                    .foregroundColor(textColor)
+                Text(text)
+                    .foregroundColor(textColor)
+                    .font(Typography.bodyMediumRegular)
+            }
+            
+            Text("$\(balance)")
+                .foregroundColor(textColor)
+                .font(Typography.bodyLargeSemibold)
+        }
+        .frame(width: 180, height: 100)
+        .background(cardColor)
+        .cornerRadius(16)
+    }
+}
+
+struct MonthPickerView: View {
+    @StateObject var viewModel: SpendingViewModel
+    var body: some View {
+        HStack {
+            
+            Picker("", selection: $viewModel.selectedMonth) {
+                ForEach(SpendingViewModel.monthsSpending, id: \.self) {
+                    Text($0)
+                    
+                }
+            }.pickerStyle(.menu)
+            
+            
+            Spacer()
+        }.padding()
     }
 }
