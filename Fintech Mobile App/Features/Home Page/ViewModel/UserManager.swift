@@ -22,36 +22,10 @@ final class UserManager: ObservableObject {
     
     
     func setUserID(_ userID: String) {
-        self.currentUserID = userID
-        fetchUserData()
-    }
-    
-    func fetchUserData() {
-        guard !currentUserID.isEmpty else { return }
-        
-        isLoading = true
-        errorMessage = nil
-        
-        // Simulated API call
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            // Mock data
-            self.currentUser = User(id: self.currentUserID,
-                                    residence: self.currentResidence,
-                                    fullName: self.currentFullName,
-                                    dateOfBirth: self.currentDateOfBirth,
-                                    adressLine: self.currentAdressLine,
-                                    city: self.currentCity,
-                                    postCode: self.currentPostCode,
-                                    email: self.currentEmail,
-                                    passCode: "Empty")
-            self.isLoading = false
+        DispatchQueue.main.async {
+            self.currentUserID = userID
+            print("🆔 UserID updated: \(userID)")
         }
-    }
-    
-    func logout() {
-        currentUserID = ""
-        currentUser = nil
-        errorMessage = nil
     }
 }
 

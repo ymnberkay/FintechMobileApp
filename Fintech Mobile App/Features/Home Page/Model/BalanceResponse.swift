@@ -6,6 +6,8 @@
 //
 
 struct BalanceResponse: Codable {
-    var balance: Double
+    let userId: String
+    let balance: Double
+    let currency: String
+    let lastUpdated: String
 }
-

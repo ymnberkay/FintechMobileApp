@@ -39,7 +39,7 @@ struct DashbordView: View {
                 }
                 .environmentObject(userManager)
                 .tag(2)
-
+            
             ProfileView()
                 .tabItem {
                     Image(systemName: "person")
@@ -49,8 +49,17 @@ struct DashbordView: View {
                 .tag(3)
         }
         .onAppear {
-            userManager.setUserID(userManager.currentUserID)
+            print("📱 Dashboard onAppear - UserID: '\(userManager.currentUserID)'")
+            if !userManager.currentUserID.isEmpty {
+                Task {
+                    await homePageViewModel.getBalanceData(userId: userManager.currentUserID)
+                    print("💰 Balance loaded: \(homePageViewModel.balance)")
+                }
+            } else {
+                print("❌ UserID is empty in Dashboard!")
+            }
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 

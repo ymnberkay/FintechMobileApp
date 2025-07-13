@@ -33,6 +33,8 @@ struct LoginView: View {
                         Task {
                             await viewModel.postLogin(phoneNumber: "\((caViewModel.selectedCountry?.code ?? "") + viewModel.phoneNumber)", password: viewModel.password)
                             if viewModel.loginIsSuccess {
+                                userManager.setUserID(viewModel.userID)
+                                print("✅ UserID set: \(userManager.currentUserID)")
                                 coordinator.push(.home)
                             }
                         }
@@ -45,10 +47,6 @@ struct LoginView: View {
                         .background(RoundedRectangle(cornerRadius: 40).frame(width: 350, height: 60).foregroundColor(ColorPalette.primary))
                     
                 }.padding()
-            }
-        }.onDisappear {
-            if viewModel.loginIsSuccess {
-                userManager.currentUserID = viewModel.userID
             }
         }
         

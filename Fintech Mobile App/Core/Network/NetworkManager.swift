@@ -93,6 +93,8 @@ class NetworkManager: INetworkManager {
     }
     
     func get<T: Codable>(path: NetworkPath, type: T.Type) async -> T? {
+        print("\(config.baseUrl)\(path.rawValue)")
+        print("Headers: \(headers)")
         let request = AF.request("\(config.baseUrl)\(path.rawValue)",
                                  method: .get,
                                  headers: headers)
@@ -100,7 +102,7 @@ class NetworkManager: INetworkManager {
             .serializingDecodable(T.self)
         
         let response = await request.response
-        
+        print("🔗 Response: \(response)")
         guard let value = response.value else {
             print("ERROR: \(String(describing: response.error))")
             return nil
