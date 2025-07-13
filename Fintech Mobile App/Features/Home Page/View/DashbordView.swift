@@ -49,10 +49,11 @@ struct DashbordView: View {
                 .tag(3)
         }
         .onAppear {
-            print("📱 Dashboard onAppear - UserID: '\(userManager.currentUserID)'")
-            if !userManager.currentUserID.isEmpty {
+            print("📱 Dashboard onAppear - UserID: '\(userManager.currentUser?.id))'")
+            if userManager.currentUser?.id != nil {
                 Task {
-                    await homePageViewModel.getBalanceData(userId: userManager.currentUserID)
+                    await homePageViewModel.getBalanceData(userId: userManager.currentUser?.id ?? "")
+                    await userManager.fetchUserInfo(userManager.currentUser?.id ?? "")
                     print("💰 Balance loaded: \(homePageViewModel.balance)")
                 }
             } else {

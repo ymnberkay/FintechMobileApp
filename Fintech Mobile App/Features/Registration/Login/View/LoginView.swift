@@ -34,8 +34,10 @@ struct LoginView: View {
                             await viewModel.postLogin(phoneNumber: "\((caViewModel.selectedCountry?.code ?? "") + viewModel.phoneNumber)", password: viewModel.password)
                             if viewModel.loginIsSuccess {
                                 userManager.setUserID(viewModel.userID)
-                                print("✅ UserID set: \(userManager.currentUserID)")
-                                coordinator.push(.home)
+                                Task {
+                                        try? await Task.sleep(nanoseconds: 200_000_000) // 0.2 saniye
+                                        coordinator.push(.home)
+                                    }
                             }
                         }
                     }

@@ -28,9 +28,4 @@ final class SpendingViewModel: ObservableObject {
 }
 
 
-struct WeeklyData: Identifiable {
-    let id = UUID()
-    let weekRange: String
-    let amount: Double
-    let color: Color
-}
+
