@@ -16,5 +16,7 @@ enum Screen: Hashable {
     case caPasscode
     case welcome
     case home
+    case recipient
+    case purpose
     
 }

@@ -8,5 +8,5 @@
 struct CAResidenceResponse: Codable {
     let success: Bool
     let message: String
-    let id: String
+    let data: String
 }

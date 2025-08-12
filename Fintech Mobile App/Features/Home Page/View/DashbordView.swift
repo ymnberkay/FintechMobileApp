@@ -12,6 +12,7 @@ struct DashbordView: View {
     @State private var selectedTab = 0
     @StateObject var homePageViewModel: HomePageViewModel
     @StateObject var spendingViewModel: SpendingViewModel
+    @EnvironmentObject var coordinator: NavigationCoordinator
     
     var body: some View {
         TabView(selection: $selectedTab) {

@@ -47,6 +47,7 @@ struct CACountry: View {
             .padding()
         }.onAppear {
             viewModel.success = false
+            print("CACountry = \(viewModel.userInfoID)")
         }
     }
 }

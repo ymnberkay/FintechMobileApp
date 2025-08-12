@@ -31,7 +31,7 @@ struct HomePageView: View {
                     HStack (spacing: 36){
                         
                         SRBButtonView(imageName: "arrow.up.circle.fill", text: "Send", buttonColor: ColorPalette.primary) {
-                            
+                            coordinator.push(.recipient)
                         }
                         Divider()
                         

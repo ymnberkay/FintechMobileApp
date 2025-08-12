@@ -10,6 +10,7 @@ import SwiftUI
 struct CAPasscode: View {
     @StateObject var viewModel: CAViewModel
     @EnvironmentObject var coordinator: NavigationCoordinator
+    @EnvironmentObject var userManager: UserManager
     var body: some View {
         VStack(spacing: 16) {
             VStack {
@@ -48,9 +49,14 @@ struct CAPasscode: View {
                     await viewModel.postCreateFirstBalance(id: viewModel.userInfoID, balance: 0.0, currency: "USD")
                     
                     if viewModel.success {
-                        coordinator.push(.welcome)
+                        userManager.setUserID(viewModel.userInfoID)
+                        Task {
+                                try? await Task.sleep(nanoseconds: 200_000_000) // 0.2 saniye
+                                coordinator.push(.home)
+                            }
                     }
                 }
+                
             } label: {
                 Text("Continue")
                     .font(Typography.bodyLargeSemibold)

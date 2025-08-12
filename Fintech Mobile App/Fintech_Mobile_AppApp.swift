@@ -19,10 +19,11 @@ struct Fintech_Mobile_AppApp: App {
     @StateObject var loginViewModel = LoginViewModel()
     @StateObject var homePageViewModel = HomePageViewModel()
     @StateObject var spendingViewModel = SpendingViewModel()
+    @StateObject var recipientViewModel = RecipientViewModel()
     
     var body: some Scene {
         WindowGroup {
-            RootView(createAccountViewModel: createAccountViewModel, loginViewModel: loginViewModel, homePageViewModel: HomePageViewModel(), spendingViewModel: spendingViewModel)
+            RootView(createAccountViewModel: createAccountViewModel, loginViewModel: loginViewModel, homePageViewModel: homePageViewModel, spendingViewModel: spendingViewModel, recipientViewModel: recipientViewModel)
                 .environmentObject(userManager)
                 .environmentObject(coordinator)
         }

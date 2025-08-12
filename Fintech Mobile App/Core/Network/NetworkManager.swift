@@ -22,6 +22,7 @@ enum NetworkPath {
     case GetBalance(userId: String)
     case CreateBalance
     case PIFetchFullData(userId: String)
+    case PIFetchFullDataByEmail(email: String)
     
     var rawValue: String {
         switch self {
@@ -45,6 +46,8 @@ enum NetworkPath {
             return "api/Balance"
         case .PIFetchFullData(let userId):
             return "api/PersonalInfo/\(userId)"
+        case .PIFetchFullDataByEmail(let email):
+            return "api/PersonalInfo/by-email?email=\(email)"
         
         }
     }
