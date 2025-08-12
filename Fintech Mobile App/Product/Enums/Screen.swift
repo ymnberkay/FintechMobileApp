@@ -18,5 +18,7 @@ enum Screen: Hashable {
     case home
     case recipient
     case purpose
+    case amount
+    
     
 }

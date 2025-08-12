@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct RecipientView: View {
-    @StateObject var viewModel: RecipientViewModel
+    @StateObject var viewModel: TransactionViewModel
     @EnvironmentObject var coordinator: NavigationCoordinator
+    @EnvironmentObject var userManager: UserManager
     
     var body: some View {
-        NavigationView {
             VStack(spacing: 0) {
-                HeaderView(onBack: {coordinator.pop()})
+                BackButton(onBack: {coordinator.pop()})
                 
                 TitleSectionView()
                 
@@ -22,54 +22,43 @@ struct RecipientView: View {
                     searchText: $viewModel.searchText,
                     onSearchTap: {
                         Task {
-                            await viewModel.getUserDetailsByEmail(email: viewModel.searchText)
+                            await viewModel.getUserInfoByEmail(email: viewModel.searchText)
                         }
                         
                     }
                 )
                 
                 
-                if let selectedReciever = viewModel.selectedReceiver {
+                if let selectedReciever = viewModel.selectedReciever {
                     SendToView(receiver: selectedReciever)
                 }
                 
                 RecipientListView(
-                    recievers: viewModel.filteredReceivers,
-                    isLoading: viewModel.isLoading,
-                    onRecipientTap: { receiver in
-                        viewModel.selectReciever(receiver)
+                    recievers: viewModel.recentTransactions,
+                    isLoading: viewModel.isSuccess,
+                    onRecipientTap: { transaction in
+                        Task {
+                            await viewModel.getUserInfoByEmail(email: transaction.toUserEmail)
+                            print("RecentTransactions: \(viewModel.recentTransactions)")
+                        }
                     },
-                    showTitle: viewModel.selectedReceiver == nil
+                    showTitle: viewModel.selectedReciever == nil
                 )
                 
                 Spacer()
                 
                 ScanToPayButtonView(onScanTap: viewModel.scanToPay)
+            }.onAppear {
+                Task {
+                    await viewModel.getUserTransaction(userID: userManager.currentUser?.id ?? "")
+                }
             }
             .background(Color(UIColor.systemBackground))
-        }
-        .navigationBarHidden(true)
+            .navigationBarHidden(true)
     }
 }
 
 // MARK: - Sub Views
-struct HeaderView: View {
-    let onBack: () -> Void
-    
-    var body: some View {
-        HStack {
-            Button(action: onBack) {
-                Image(systemName: "chevron.left")
-                    .foregroundColor(.black)
-                    .font(.title2)
-            }
-            
-            Spacer()
-        }
-        .padding(.horizontal, 20)
-        .padding(.top, 10)
-    }
-}
 
 struct TitleSectionView: View {
     var body: some View {
@@ -121,7 +110,7 @@ struct SearchBarView: View {
 }
 
 struct SendToView: View {
-    let receiver: ReceiverUser
+    let receiver: User
     @EnvironmentObject var coordinator: NavigationCoordinator
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -142,11 +131,11 @@ struct SendToView: View {
                     ProfileImageView(imageURL: "")
                     
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(receiver.fullName)
+                        Text(receiver.fullName ?? "")
                             .font(Typography.bodyMediumSemibold)
                             .foregroundColor(ColorPalette.black)
                         
-                        Text(receiver.email)
+                        Text(receiver.email ?? "")
                             .font(Typography.bodyMediumRegular)
                             .foregroundColor(ColorPalette.black)
                     }
@@ -168,16 +157,16 @@ struct SendToView: View {
 }
 
 struct RecipientListView: View {
-    let recievers: [ReceiverUser]
+    let recievers: [Transaction]
     let isLoading: Bool
-    let onRecipientTap: (ReceiverUser) -> Void
+    let onRecipientTap: (Transaction) -> Void
     let showTitle: Bool
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             if showTitle {
                 HStack {
-                    Text("Most Recent")
+                    Text("Recent Transactions")
                         .font(Typography.bodyLargeSemibold)
                         .foregroundColor(ColorPalette.black)
                     Spacer()
@@ -185,7 +174,7 @@ struct RecipientListView: View {
                 .padding(.horizontal, 20)
             }
             
-            if isLoading {
+            if !isLoading {
                 ProgressView()
                     .frame(maxWidth: .infinity)
                     .padding(.top, 20)
@@ -214,27 +203,27 @@ struct RecipientListView: View {
 }
 
 struct RecipientRowView: View {
-    let recievers: ReceiverUser
+    let recievers: Transaction
     let recipient: Recipient
     let onTap: () -> Void
     
     var body: some View {
         HStack(spacing: 16) {
-            ProfileImageView(imageURL: recipient.profileImageURL)
+            ProfileImageView(imageURL: recipient.profileImageURL) //It is not connect.
             
             VStack(alignment: .leading, spacing: 4) {
-                Text(recievers.fullName)
+                Text(recievers.toUserName)
                     .font(Typography.bodyMediumSemibold)
                     .foregroundColor(ColorPalette.black)
                 
-                Text(recievers.email)
+                Text(recievers.toUserEmail)
                     .font(Typography.bodySmallRegular)
                     .foregroundColor(ColorPalette.black)
             }
             
             Spacer()
             
-            Text(recipient.amount)
+            Text("\(recievers.amount)")
                 .font(Typography.bodyMediumSemibold)
                 .foregroundColor(ColorPalette.red500)
         }
@@ -301,5 +290,5 @@ struct ScanToPayButtonView: View {
 
 
 #Preview {
-    RecipientView(viewModel: RecipientViewModel())
+    RecipientView(viewModel: TransactionViewModel())
 }

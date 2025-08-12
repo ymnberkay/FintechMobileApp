@@ -13,7 +13,7 @@ struct RootView: View {
     @StateObject var loginViewModel: LoginViewModel
     @StateObject var homePageViewModel: HomePageViewModel
     @StateObject var spendingViewModel: SpendingViewModel
-    @StateObject var recipientViewModel: RecipientViewModel
+    @StateObject var transactionViewModel: TransactionViewModel
     @EnvironmentObject var userManager: UserManager
     
     
@@ -45,11 +45,12 @@ struct RootView: View {
                         DashbordView(homePageViewModel: homePageViewModel, spendingViewModel: spendingViewModel)
                             .environmentObject(userManager)
                     case .recipient:
-                        RecipientView(viewModel: recipientViewModel)
+                        RecipientView(viewModel: transactionViewModel)
                             .environmentObject(userManager)
                     case .purpose:
-                        CAPasscode(viewModel: createAccountViewModel)
-                        
+                        SelectPurposeView(viewModel: transactionViewModel)
+                    case .amount:
+                        AmountView()
                     }
                 }
         }
@@ -58,5 +59,5 @@ struct RootView: View {
 }
 
 #Preview {
-    RootView(createAccountViewModel: CAViewModel(), loginViewModel: LoginViewModel(), homePageViewModel: HomePageViewModel(), spendingViewModel: SpendingViewModel(),recipientViewModel: RecipientViewModel())
+    RootView(createAccountViewModel: CAViewModel(), loginViewModel: LoginViewModel(), homePageViewModel: HomePageViewModel(), spendingViewModel: SpendingViewModel(),transactionViewModel: TransactionViewModel())
 }
