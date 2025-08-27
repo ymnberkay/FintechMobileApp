@@ -12,7 +12,9 @@ struct SelectPurposeView: View {
     @EnvironmentObject var coordinator: NavigationCoordinator
     
     var body: some View {
-        NavigationView {
+        ZStack {
+            ColorPalette.gray100
+                .edgesIgnoringSafeArea(.all)
             VStack(spacing: 16) {
                 // Header
                 headerView
@@ -27,7 +29,6 @@ struct SelectPurposeView: View {
                 Spacer()
 
             }
-            .background(Color(.systemGroupedBackground))
             .navigationBarHidden(true)
         }
     }
@@ -50,7 +51,7 @@ struct SelectPurposeView: View {
             .padding(.horizontal, 20)
             .padding(.bottom, 20)
         }
-        .background(ColorPalette.bgLight)
+        .background(ColorPalette.gray100)
     }
     
     private var contentView: some View {

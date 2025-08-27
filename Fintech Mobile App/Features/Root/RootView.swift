@@ -50,7 +50,14 @@ struct RootView: View {
                     case .purpose:
                         SelectPurposeView(viewModel: transactionViewModel)
                     case .amount:
-                        AmountView()
+                        AmountView(viewModel: transactionViewModel)
+                    case .accountSelect:
+                        AccountSelectView(viewModel: transactionViewModel)
+                            .environmentObject(userManager)
+                    case .transactionSummary:
+                        TransactionSummaryView(viewModel: transactionViewModel)
+                            .environmentObject(userManager)
+                        
                     }
                 }
         }
