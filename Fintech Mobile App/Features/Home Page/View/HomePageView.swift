@@ -36,7 +36,7 @@ struct HomePageView: View {
                         Divider()
                         
                         SRBButtonView(imageName: "arrow.down.circle.fill", text: "Request", buttonColor: ColorPalette.secondary) {
-                            
+                            coordinator.push(.ReceiveChooseRecipent)
                         }
                         Divider()
                         

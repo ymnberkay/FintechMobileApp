@@ -25,6 +25,8 @@ enum NetworkPath {
     case PIFetchFullDataByEmail(email: String)
     case GetUserTransactions(userId: String)
     case CreateTransaction
+    case GetUserRequests(userId: String)
+    case RequestMoney
     
     var rawValue: String {
         switch self {
@@ -54,6 +56,10 @@ enum NetworkPath {
             return "api/Transaction/\(email)"
         case .CreateTransaction:
             return "api/Transaction"
+        case .GetUserRequests(let userId):
+            return "api/Transaction/GetRequests/\(userId)"
+        case .RequestMoney:
+            return "api/Transaction/RequestMoney"
         
         }
     }

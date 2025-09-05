@@ -15,6 +15,10 @@ struct RootView: View {
     @StateObject var spendingViewModel: SpendingViewModel
     @StateObject var transactionViewModel: TransactionViewModel
     @EnvironmentObject var userManager: UserManager
+    @StateObject var chooseRecipientViewModel: ChooseRecipientViewModel
+    @StateObject var recievePurposeViewModel: ReceivePurposeViewModel
+    @StateObject var receiveAmountViewModel: ReceiveAmountViewModel
+    @StateObject var receiveSummaryViewModel: ReceiveSummaryViewModel
     
     
     var body: some View {
@@ -57,7 +61,15 @@ struct RootView: View {
                     case .transactionSummary:
                         TransactionSummaryView(viewModel: transactionViewModel)
                             .environmentObject(userManager)
-                        
+                    case .ReceiveChooseRecipent:
+                        ChooseRecipientView(viewModel: chooseRecipientViewModel)
+                            .environmentObject(userManager)
+                    case .ReceiveChoosePurpose:
+                        RecievePurposeView(viewModel: recievePurposeViewModel)
+                    case .ReceiveAmount:
+                        ReceiveAmountView(viewModel: receiveAmountViewModel)
+                    case .ReceiveSummary:
+                        ReceiveSummaryView(viewModel: receiveSummaryViewModel)
                     }
                 }
         }
@@ -66,5 +78,5 @@ struct RootView: View {
 }
 
 #Preview {
-    RootView(createAccountViewModel: CAViewModel(), loginViewModel: LoginViewModel(), homePageViewModel: HomePageViewModel(), spendingViewModel: SpendingViewModel(),transactionViewModel: TransactionViewModel())
+    RootView(createAccountViewModel: CAViewModel(), loginViewModel: LoginViewModel(), homePageViewModel: HomePageViewModel(), spendingViewModel: SpendingViewModel(),transactionViewModel: TransactionViewModel(), chooseRecipientViewModel: ChooseRecipientViewModel(model: TransferModel()), recievePurposeViewModel: ReceivePurposeViewModel(model: TransferModel()),receiveAmountViewModel: ReceiveAmountViewModel(model: TransferModel()),receiveSummaryViewModel: ReceiveSummaryViewModel(model: TransferModel()))
 }

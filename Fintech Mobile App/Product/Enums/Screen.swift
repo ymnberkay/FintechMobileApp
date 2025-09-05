@@ -21,6 +21,10 @@ enum Screen: Hashable {
     case amount
     case accountSelect
     case transactionSummary
+    case ReceiveChooseRecipent
+    case ReceiveChoosePurpose
+    case ReceiveAmount
+    case ReceiveSummary
     
     
 }
