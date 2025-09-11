@@ -7,9 +7,11 @@
 
 import SwiftUI
 import Firebase
+import SwiftData
 
 @main
 struct Fintech_Mobile_AppApp: App {
+    let container: ModelContainer
     
     @StateObject private var coordinator = NavigationCoordinator()
     @StateObject private var userManager = UserManager()
@@ -28,6 +30,11 @@ struct Fintech_Mobile_AppApp: App {
     init() {
         FirebaseApp.configure()
         let transferModel = TransferModel()
+        do {
+            container = try ModelContainer(for: PasscodeUser.self)
+        } catch {
+            fatalError("Failed to create ModelContainer: \(error)")
+        }
         
         // Request view flow
         _receiveTransferModel = StateObject(wrappedValue: transferModel)
@@ -42,6 +49,9 @@ struct Fintech_Mobile_AppApp: App {
             RootView(createAccountViewModel: createAccountViewModel, loginViewModel: loginViewModel, homePageViewModel: homePageViewModel, spendingViewModel: spendingViewModel, transactionViewModel: recipientViewModel, chooseRecipientViewModel: chooseRecipientViewModel, recievePurposeViewModel: receivePurposeViewModel, receiveAmountViewModel: receiveAmountViewModel, receiveSummaryViewModel: receiveSummaryViewModel)
                 .environmentObject(userManager)
                 .environmentObject(coordinator)
+                .onAppear {
+                    SwiftDataManager.shared.setupContext(with: container)
+                }
         }
     }
 }

@@ -12,6 +12,7 @@ struct LoginView: View {
     @StateObject var caViewModel: CAViewModel
     @StateObject var viewModel: LoginViewModel
     @EnvironmentObject var userManager: UserManager
+    @StateObject private var dataManager = SwiftDataManager.shared
     var body: some View {
         ZStack {
             VStack(spacing: 16) {
@@ -34,10 +35,20 @@ struct LoginView: View {
                             await viewModel.postLogin(phoneNumber: "\((caViewModel.selectedCountry?.code ?? "") + viewModel.phoneNumber)", password: viewModel.password)
                             if viewModel.loginIsSuccess {
                                 userManager.setUserID(viewModel.userID)
+                                let user = PasscodeUser(id: viewModel.userID, name: "", email: "", phoneNumber: viewModel.phoneNumber)
+                                do {
+                                    try dataManager.createInitialUser(
+                                        id: viewModel.userID,
+                                        phoneNumber: "\((caViewModel.selectedCountry?.code ?? "") + viewModel.phoneNumber)"
+                                    )
+                                    
+                                } catch {
+                                    print("Error: \(error)")
+                                }
                                 Task {
-                                        try? await Task.sleep(nanoseconds: 200_000_000) // 0.2 saniye
-                                        coordinator.push(.home)
-                                    }
+                                    try? await Task.sleep(nanoseconds: 200_000_000) // 0.2 saniye
+                                    coordinator.push(.home)
+                                }
                             }
                         }
                     }
@@ -50,12 +61,22 @@ struct LoginView: View {
                     
                 }.padding()
             }
+            if viewModel.isLoading {
+                Color.black.opacity(0.4).edgesIgnoringSafeArea(.all)
+                ProgressView("Logging in...")
+                    .padding()
+                    .background(RoundedRectangle(cornerRadius: 16).fill(Color.white))
+            }
         }
+        .onAppear {
+            dataManager.printUserInfo()
+        }
+        
         
     }
 }
 
 #Preview {
-    EntryView()
+    LoginView(caViewModel: CAViewModel(), viewModel: LoginViewModel())
 }
 

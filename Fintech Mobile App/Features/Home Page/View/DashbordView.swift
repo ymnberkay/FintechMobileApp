@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct DashbordView: View {
+    @StateObject private var dataManager = SwiftDataManager.shared
     @EnvironmentObject var userManager: UserManager
     @State private var selectedTab = 0
     @StateObject var homePageViewModel: HomePageViewModel
@@ -56,10 +57,22 @@ struct DashbordView: View {
                     await homePageViewModel.getBalanceData(userId: userManager.currentUser?.id ?? "")
                     await userManager.fetchUserInfo(userManager.currentUser?.id ?? "")
                     print("💰 Balance loaded: \(homePageViewModel.balance)")
+                    do {
+                        try dataManager.completeUserProfile(
+                            name: userManager.currentUser?.fullName ?? "",
+                            email: userManager.currentUser?.email ?? ""
+                        )
+                        
+                    } catch {
+                        print("Error: \(error)")
+                    }
+                    print(dataManager.printUserInfo())
+                    
                 }
             } else {
                 print("❌ UserID is empty in Dashboard!")
             }
+           
         }
         .navigationBarBackButtonHidden(true)
     }

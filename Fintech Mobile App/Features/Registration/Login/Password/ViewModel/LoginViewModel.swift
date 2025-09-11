@@ -11,9 +11,14 @@ final class LoginViewModel: ObservableObject {
     @Published var password: String = ""
     @Published var loginIsSuccess: Bool = false
     @Published var userID: String = ""
+    @Published var isLoading: Bool = false
+    
     
     
     func postLogin(phoneNumber: String, password: String) async {
+        DispatchQueue.main.async { self.isLoading = true }
+        defer { DispatchQueue.main.async { self.isLoading = false } }
+        
         let model = LoginRequest(phoneNumber: phoneNumber, password: password)
         if let response = await NetworkManager.networkManager.post(
             path: .Login,

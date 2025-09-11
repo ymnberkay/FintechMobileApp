@@ -9,6 +9,7 @@ import SwiftUI
 
 struct EntryView: View {
     @EnvironmentObject var coordinator: NavigationCoordinator
+    
     var body: some View {
         VStack(spacing: 24) {
             Image("registration")

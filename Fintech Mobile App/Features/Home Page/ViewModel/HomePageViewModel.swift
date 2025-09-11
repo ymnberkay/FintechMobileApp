@@ -28,4 +28,5 @@ final class HomePageViewModel: ObservableObject {
             self.message = "Error"
         }
     }
+    
 }

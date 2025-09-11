@@ -27,6 +27,7 @@ enum NetworkPath {
     case CreateTransaction
     case GetUserRequests(userId: String)
     case RequestMoney
+    case LoginPasscode
     
     var rawValue: String {
         switch self {
@@ -60,6 +61,8 @@ enum NetworkPath {
             return "api/Transaction/GetRequests/\(userId)"
         case .RequestMoney:
             return "api/Transaction/RequestMoney"
+        case .LoginPasscode:
+            return "api/Auth/login-passcode"
         
         }
     }
