@@ -64,6 +64,21 @@ final class ChooseRecipientViewModel: ObservableObject {
         }
     }
     
+    func handleMoneyRequest(userRequestId: String, approve: Bool) async {
+        let model = MoneyRequestApproval(requestID: userRequestId ,approve: approve)
+        if let response = await NetworkManager.networkManager.put(
+            path: NetworkPath.HandleMoneyRequest,
+            model: model,
+            type: HandleMoneyRequestReponse.self) {
+            await MainActor.run {
+                if response.success {
+                    print("\(userRequestId) adlı kullanıcı \(approve ? "Onayladı": "Reddetti")")
+                    self.requests.removeAll { $0.id == userRequestId }
+                }
+            }
+        }
+    }
+    
     private func setupSearchDebounce() {
         $searchText
             .debounce(for: .seconds(2), scheduler: DispatchQueue.main)

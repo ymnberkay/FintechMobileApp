@@ -80,6 +80,8 @@ struct RootView: View {
                     ReceiveAmountView(viewModel: receiveAmountViewModel)
                 case .ReceiveSummary:
                     ReceiveSummaryView(viewModel: receiveSummaryViewModel)
+                case .RecentTransaction:
+                    RecentTransactionView()
                 }
             }
         }

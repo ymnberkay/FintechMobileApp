@@ -12,6 +12,7 @@ final class UserManager: ObservableObject {
     @Published var currentUser: User?
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
+    @Published var avaibleBalance: Double = 0.0
     
     
     func setUserID(_ userID: String) {
@@ -32,6 +33,10 @@ final class UserManager: ObservableObject {
         } else {
             
         }
+    }
+    
+    func setAvaibleBalance(_ avaibleBalance: Double) {
+        self.avaibleBalance = avaibleBalance
     }
     
     

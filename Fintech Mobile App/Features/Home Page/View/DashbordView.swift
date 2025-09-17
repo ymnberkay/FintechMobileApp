@@ -56,17 +56,19 @@ struct DashbordView: View {
                 Task {
                     await homePageViewModel.getBalanceData(userId: userManager.currentUser?.id ?? "")
                     await userManager.fetchUserInfo(userManager.currentUser?.id ?? "")
+                    userManager.setAvaibleBalance(homePageViewModel.balance)
                     print("💰 Balance loaded: \(homePageViewModel.balance)")
-                    do {
-                        try dataManager.completeUserProfile(
-                            name: userManager.currentUser?.fullName ?? "",
-                            email: userManager.currentUser?.email ?? ""
-                        )
-                        
-                    } catch {
-                        print("Error: \(error)")
+                    if !dataManager.isProfileComplete {
+                        do {
+                            try dataManager.completeUserProfile(
+                                name: userManager.currentUser?.fullName ?? "",
+                                email: userManager.currentUser?.email ?? ""
+                            )
+                            
+                        } catch {
+                            print("Error: \(error)")
+                        }
                     }
-                    print(dataManager.printUserInfo())
                     
                 }
             } else {

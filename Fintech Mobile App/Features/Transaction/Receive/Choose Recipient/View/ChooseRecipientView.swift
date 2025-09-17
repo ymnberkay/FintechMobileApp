@@ -46,8 +46,14 @@ struct ChooseRecipientView: View {
                     LazyVStack(spacing: 8) {
                         ForEach(viewModel.requests, id: \.id) { request in
                             RequestCard(amount: request.amount, name: request.senderUserName, email: request.senderUserEmail, cardHeight: geo.size.height * 0.25, cardWidth: geo.size.width - 30) {
+                                Task {
+                                    await viewModel.handleMoneyRequest(userRequestId: request.id, approve: true)
+                                }
                                 
                             } rejectAction: {
+                                Task {
+                                    await viewModel.handleMoneyRequest(userRequestId: request.id, approve: false)
+                                }
                                 
                             }
 
@@ -64,6 +70,7 @@ struct ChooseRecipientView: View {
             .onAppear {
                 Task {
                     await viewModel.getUserTransactionRequest(userId: userManager.currentUser?.id ?? "")
+                    print("Request: \(viewModel.requests)")
                 }
             }
             .background(Color(UIColor.systemBackground))
@@ -125,4 +132,5 @@ struct RecieveSendToView: View {
 
 #Preview {
     ChooseRecipientView(viewModel: ChooseRecipientViewModel(model: TransferModel()))
+        .environmentObject(UserManager())
 }

@@ -11,6 +11,8 @@ import Charts
 struct SpendingView: View {
     
     @StateObject var viewModel: SpendingViewModel
+    @EnvironmentObject var userManager: UserManager
+    
     
     var body: some View {
         ZStack {
@@ -23,7 +25,7 @@ struct SpendingView: View {
                     
                     BalanceCard(balance: viewModel.totalSpend, image: "creditcard", text: "Total Spend", cardColor: ColorPalette.bgAccent, textColor: ColorPalette.bgLight)
                     
-                    BalanceCard(balance: viewModel.avainleBalance, image: "creditcard", text: "Available Balance", cardColor: ColorPalette.bgSecondary, textColor: ColorPalette.black)
+                    BalanceCard(balance: userManager.avaibleBalance, image: "creditcard", text: "Available Balance", cardColor: ColorPalette.bgSecondary, textColor: ColorPalette.black)
                     
                 }
                 .padding(.horizontal, 20)
@@ -41,6 +43,7 @@ struct SpendingView: View {
 
 #Preview {
     SpendingView(viewModel: SpendingViewModel())
+        .environmentObject(UserManager())
 }
 
 
@@ -105,7 +108,7 @@ struct BalanceCard: View {
                     .font(Typography.bodyMediumRegular)
             }
             
-            Text("$\(balance)")
+            Text("$\(String(format: "%.2f", balance))")
                 .foregroundColor(textColor)
                 .font(Typography.bodyLargeSemibold)
         }

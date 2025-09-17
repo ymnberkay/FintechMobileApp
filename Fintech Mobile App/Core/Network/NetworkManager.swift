@@ -28,6 +28,7 @@ enum NetworkPath {
     case GetUserRequests(userId: String)
     case RequestMoney
     case LoginPasscode
+    case HandleMoneyRequest
     
     var rawValue: String {
         switch self {
@@ -63,6 +64,8 @@ enum NetworkPath {
             return "api/Transaction/RequestMoney"
         case .LoginPasscode:
             return "api/Auth/login-passcode"
+        case .HandleMoneyRequest:
+            return "api/Transaction/handle-request"
         
         }
     }
@@ -73,6 +76,7 @@ enum NetworkPath {
 protocol INetworkManager {
     func get<T: Codable>(path: NetworkPath, type: T.Type) async -> T?
     func post<T: Codable, R: Encodable>(path: NetworkPath, model: R, type: T.Type) async -> T?
+    func put<T: Codable, R: Encodable>(path: NetworkPath, model: R, type: T.Type) async -> T?
     var config: NetworkConfig { get set }
 }
 
@@ -132,6 +136,33 @@ class NetworkManager: INetworkManager {
         
         return value
         
+    }
+    
+    func put<T: Codable, R: Encodable>(path: NetworkPath, model: R, type: T.Type) async -> T? {
+        let jsonEncoder = JSONEncoder()
+        jsonEncoder.dateEncodingStrategy = .iso8601
+        guard let data = try? jsonEncoder.encode(model) else { return nil }
+        guard let dataString = String(data: data, encoding: .utf8) else { return nil }
+        
+        print("🔗 PUT Request URL: \(config.baseUrl)\(path.rawValue)")
+        print("🔗 Parameters: \(dataString)")
+        
+        let request = AF.request("\(config.baseUrl)\(path.rawValue)",
+                               method: .put,
+                               parameters: convertToDictionary(text: dataString),
+                               encoding: JSONEncoding.default,
+                               headers: headers)
+            .validate()
+            .serializingDecodable(T.self)
+        
+        let result = await request.response
+        print("🔗 Response: \(result)")
+        
+        guard let value = result.value else {
+            print("ERROR: \(String(describing: result.error))")
+            return nil
+        }
+        return value
     }
     
     

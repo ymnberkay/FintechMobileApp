@@ -25,6 +25,7 @@ enum Screen: Hashable {
     case ReceiveChoosePurpose
     case ReceiveAmount
     case ReceiveSummary
+    case RecentTransaction
     
     
 }

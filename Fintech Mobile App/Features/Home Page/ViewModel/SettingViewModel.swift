@@ -46,15 +46,6 @@ final class SettingViewModel: ObservableObject {
                 }
             ),
             SettingsItem(
-                icon: "creditcard.fill",
-                iconColor: .red,
-                iconBackground: Color.red.opacity(0.2),
-                title: "Transaction",
-                type: .navigation { [weak self] in
-                    self?.navigateToTransaction()
-                }
-            ),
-            SettingsItem(
                 icon: "gearshape.fill",
                 iconColor: .blue,
                 iconBackground: Color.blue.opacity(0.2),

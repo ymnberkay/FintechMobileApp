@@ -48,6 +48,20 @@ final class SwiftDataManager: ObservableObject {
     
     private init() {}
     
+    // MARK: - User State Checks
+    var hasUser: Bool {
+        return currentUser != nil
+    }
+    
+    var isProfileComplete: Bool {
+        guard let user = currentUser else { return false }
+        return !user.name.isEmpty && !user.email.isEmpty
+    }
+    
+    var userPhoneNumber: String? {
+        return currentUser?.phoneNumber
+    }
+    
     // MARK: - Setup
     func setupContext(with container: ModelContainer) {
         context = ModelContext(container)
@@ -162,19 +176,7 @@ final class SwiftDataManager: ObservableObject {
     }
     
     
-    // MARK: - User State Checks
-    var hasUser: Bool {
-        return currentUser != nil
-    }
-    
-    var isProfileComplete: Bool {
-        guard let user = currentUser else { return false }
-        return !user.name.isEmpty && !user.email.isEmpty
-    }
-    
-    var userPhoneNumber: String? {
-        return currentUser?.phoneNumber
-    }
+
     
     // MARK: - Debug
     func printUserInfo() {

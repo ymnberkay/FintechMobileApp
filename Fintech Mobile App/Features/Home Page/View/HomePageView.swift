@@ -19,12 +19,11 @@ struct HomePageView: View {
                 ColorPalette.border.opacity(0.5).edgesIgnoringSafeArea(.bottom)
                 
                 ColorPalette.bgAccent
-                    .frame(height: geo.size.height / 2.1)
+                    .frame(height: geo.size.height / 2.8)
                     .edgesIgnoringSafeArea(.top)
-                    
+                
                 VStack(spacing: 16) {
                     VStack(spacing: 16) {
-                        TopBarView()
                         BalanceView(viewModel: viewModel)
                     }.padding(.bottom, 4)
                     
@@ -43,10 +42,12 @@ struct HomePageView: View {
                         SRBButtonView(imageName: "building.columns.fill", text: "Bank", buttonColor: ColorPalette.secondary) {
                             
                         }
-                    }.padding().frame(width: geo.size.width*0.9, height: geo.size.height * 0.1).background(RoundedRectangle(cornerRadius: 15).fill(ColorPalette.bgLight))
+                    }
+                    .padding()
+                    .frame(width: geo.size.width*0.9, height: geo.size.height * 0.1).background(RoundedRectangle(cornerRadius: 15).fill(ColorPalette.bgLight))
                     
                     TextButtonArrow(text: "Transaction" ,onClick: {
-                        
+                        coordinator.push(.RecentTransaction)
                     })
                     
                     VStack(spacing: 16) {
@@ -63,12 +64,12 @@ struct HomePageView: View {
                         
                         
                     }.padding()
-                        .background(RoundedRectangle(cornerRadius: 15.0).fill(ColorPalette.bgLight).frame(width: geo.size.width * 0.93))
+                        .background(RoundedRectangle(cornerRadius: 15.0).fill(ColorPalette.bgLight).frame(width: geo.size.width - 20))
                     Spacer()
                     
                 }
             }
-        }.navigationBarBackButtonHidden(true)
+        }.navigationBarHidden(true)
         
         
         
@@ -81,6 +82,7 @@ struct HomePageView: View {
 }
 
 private struct TopBarView: View {
+    let searchBarOnTap: () -> Void
     var body: some View {
         HStack {
             Button {
@@ -93,9 +95,7 @@ private struct TopBarView: View {
                     .foregroundColor(ColorPalette.bgLight)
             }
             Spacer()
-            Button {
-                
-            } label: {
+            Button(action: searchBarOnTap) {
                 HStack(spacing: 16) {
                     Image(systemName: "magnifyingglass")
                         .resizable()
@@ -109,6 +109,7 @@ private struct TopBarView: View {
                     Spacer()
                 }.padding().frame(width: 240,height: 36).background(RoundedRectangle(cornerRadius: 20).fill(ColorPalette.blue100))
             }
+            
             Spacer()
             Button {
                 
@@ -128,7 +129,7 @@ struct BalanceView: View {
     @StateObject var viewModel: HomePageViewModel
     var body: some View {
         VStack(spacing: 16) {
-            Text("$\(viewModel.balance)")
+            Text(String(format: "%.2f", viewModel.balance))
                 .font(Typography.titleLargeXBold)
                 .foregroundColor(ColorPalette.bgLight)
             Text("Available Balance")
