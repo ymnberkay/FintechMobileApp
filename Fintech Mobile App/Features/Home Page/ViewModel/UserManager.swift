@@ -39,6 +39,15 @@ final class UserManager: ObservableObject {
         self.avaibleBalance = avaibleBalance
     }
     
+    func logOut() {
+        DispatchQueue.main.async {
+            self.currentUser = nil
+            self.avaibleBalance = 0.0
+            self.errorMessage = nil
+            self.isLoading = false
+        }
+    }
+    
     
 }
 

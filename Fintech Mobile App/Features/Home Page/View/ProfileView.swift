@@ -33,15 +33,21 @@ struct ProfileView: View {
                     
                     PersonalInfoView(name: userManager.currentUser?.fullName ?? "Berkay Yaman", email: userManager.currentUser?.email ?? "ymnberkayy@gmail.com", id: "123123123", width: geo.size.width - 30, circleSize: geo.size.width * 0.2)
                     
-                    OneTextButton(title: "Remove Auto Login") {
-                        do {
-                            try dataManager.deleteAllUsers()
-                        } catch {
-                            print("Error: \(error)")
+                    FeatureView(viewModel: viewModel)
+                    HStack(spacing: 0) {
+                        OneTextButton(title: "Log out") {
+                            userManager.logOut()
+                            coordinator.popToRoot()
+                        }
+                        
+                        OneTextButton(title: "Remove AutoLogin") {
+                            do {
+                                try dataManager.deleteAllUsers()
+                            } catch {
+                                print("Error: \(error)")
+                            }
                         }
                     }
-                    
-                    FeatureView(viewModel: viewModel)
                     
                     
                     Spacer()

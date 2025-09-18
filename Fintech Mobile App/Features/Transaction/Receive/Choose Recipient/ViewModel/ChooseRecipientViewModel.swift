@@ -72,7 +72,7 @@ final class ChooseRecipientViewModel: ObservableObject {
             type: HandleMoneyRequestReponse.self) {
             await MainActor.run {
                 if response.success {
-                    print("\(userRequestId) adlı kullanıcı \(approve ? "Onayladı": "Reddetti")")
+                    
                     self.requests.removeAll { $0.id == userRequestId }
                 }
             }
